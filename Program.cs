@@ -131,11 +131,33 @@ namespace AVL_10
 
             if (key < parent.Data) {
                 parent.Left = Remove(parent.Left, key);
+                if (balance_factor(parent) == -2)
+                {
+                    if (balance_factor(parent.Right) <= 0)
+                    {
+                        parent = RRcaseLeftOrdinary(parent);
+                    }
+                    else
+                    {
+                        parent = RLcaseLeftBig(parent);
+                    }
+                }
             }
                 
             else if (key > parent.Data)
             {
                 parent.Right = Remove(parent.Right, key);
+                if (balance_factor(parent) == 2)
+                {
+                    if (balance_factor(parent.Left) >= 0)
+                    {
+                        parent = LLcaseRightOrdinary(parent);
+                    }
+                    else
+                    {
+                        parent = LRcaseRightBig(parent);
+                    }
+                }
             }
                 
             // if value is same as parent's value, then this is the node to be deleted  
@@ -150,6 +172,8 @@ namespace AVL_10
                 parent.Data = MinValue(parent.Right);
                 // Delete the inorder successor  
                 parent.Right = Remove(parent.Right, parent.Data);
+                parent = Balance(parent);
+
             }
             return parent;
         }
